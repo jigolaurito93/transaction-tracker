@@ -1,20 +1,58 @@
 "use client";
 
-import { supabase } from '@/lib/supabase'
+import { supabase } from "@/lib/supabase";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-// interface Transaction {
-//   name: string;
-//   amount: number;
-//   category: string;
-//   type: "needs" | "wants" | "income";
-//   card_used: string;
-//   notes?: string; // optional
-//   date_charged: string; // or Date
-// }
+interface Transaction {
+  name: string;
+  amount: string;
+  category: string;
+  type: "needs" | "wants" | "income" | "transfer";
+  card_used: string;
+  notes?: string; // optional
+  date_charged: string; // or Date
+}
+
+const categories = [
+  "Bank Fees",
+  "Childcare",
+  "Dining",
+  "Donations",
+  "Education",
+  "Entertainment",
+  "Government",
+  "Groceries",
+  "Health",
+  "Home Improvement",
+  "Income",
+  "Insurance",
+  "Loan Payments",
+  "Mortgage",
+  "Other",
+  "Personal Care",
+  "Pets",
+  "Rent",
+  "Services",
+  "Shopping",
+  "Transportation",
+  "Travel",
+  "Utilities",
+];
+
+const wantsCategories = [
+  "dining",
+  "donations",
+  "entertainment",
+  "homeimprovement",
+  "other",
+  "personalcare",
+  "services",
+  "shopping",
+  "travel",
+];
 
 export default function AddTransactionPage() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Transaction>({
     name: "",
     amount: "",
     category: "",
@@ -24,7 +62,7 @@ export default function AddTransactionPage() {
     date_charged: "",
   });
 
-  const amountFormatted = Number(parseFloat(form.amount).toFixed(2))
+  const amountFormatted = Number(parseFloat(form.amount).toFixed(2));
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -34,7 +72,30 @@ export default function AddTransactionPage() {
       ...prev,
       [name]: value,
     }));
+
+    if (wantsCategories.includes(form.category)) {
+      setForm((prev) => ({
+        ...prev,
+        type: "wants",
+      }));
+    } else if (form.category === "income") {
+      setForm((prev) => ({
+        ...prev,
+        type: "income",
+      }));
+    } else if (form.category === "internaltransfer") {
+      setForm((prev) => ({
+        ...prev,
+        type: "transfer",
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        type: "needs",
+      }));
+    }
     console.log(form);
+    console.log(form.type);
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -92,18 +153,15 @@ export default function AddTransactionPage() {
           onChange={handleChange}
           required
         />
-        <input
-          name="category"
-          placeholder="Category"
-          value={form.category}
-          onChange={handleChange}
-          required
-        />
-        <select name="type" value={form.type} onChange={handleChange} required>
-          <option value="needs">Needs</option>
-          <option value="wants">Wants</option>
-          <option value="income">Income</option>
+
+        <select name="category" onChange={handleChange}>
+          {categories.map((category, i) => (
+            <option value={category.replace(/\s+/g, "").toLowerCase()}>
+              {category}
+            </option>
+          ))}
         </select>
+
         <input
           name="card_used"
           placeholder="Card Used"

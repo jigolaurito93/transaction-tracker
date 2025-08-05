@@ -1,0 +1,25 @@
+Bank Fees
+Need | Childcare
+Want | Dining
+Donations
+Need | Education
+Want | Entertainment
+Government
+Need | Groceries
+Need | Health
+Want | Home Improvement
+Saving | Income
+Need | Insurance
+Internal Transfer
+Need | Loan Payments
+Need | Mortgage
+Want | Other
+Want | Personal Care
+Need | Pets 
+Need | Rent    
+Want | Services
+Want | Shopping
+Need | Transportation
+Want | Travel
+Need | Utilities
+
