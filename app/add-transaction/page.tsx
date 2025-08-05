@@ -3,6 +3,7 @@
 import { supabase } from "@/lib/supabase";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { categories, wantsCategories } from "@/data/categories";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface Transaction {
   name: string;
@@ -93,6 +94,13 @@ export default function AddTransactionPage() {
         onSubmit={handleSubmit}
         className=" border flex flex-col w-lg mx-auto mt-20 rounded-lg p-8 gap-3"
       >
+        <div className="relative mb-10 flex items-center justify-center">
+          <div className="text-center text-lg font-semibold w-full">
+            Add a transaction
+          </div>
+          <AiOutlineCloseCircle className="absolute right-0 text-2xl cursor-pointer" />
+        </div>
+
         <div className="flex flex-col">
           <label htmlFor="" className="text-sm">
             Transaction
