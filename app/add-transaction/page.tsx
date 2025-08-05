@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { categories, wantsCategories } from "@/data/categories";
 
 interface Transaction {
   name: string;
@@ -12,44 +13,6 @@ interface Transaction {
   notes?: string; // optional
   date_charged: string; // or Date
 }
-
-const categories = [
-  "Bank Fees",
-  "Childcare",
-  "Dining",
-  "Donations",
-  "Education",
-  "Entertainment",
-  "Government",
-  "Groceries",
-  "Health",
-  "Home Improvement",
-  "Income",
-  "Insurance",
-  "Loan Payments",
-  "Mortgage",
-  "Other",
-  "Personal Care",
-  "Pets",
-  "Rent",
-  "Services",
-  "Shopping",
-  "Transportation",
-  "Travel",
-  "Utilities",
-];
-
-const wantsCategories = [
-  "dining",
-  "donations",
-  "entertainment",
-  "homeimprovement",
-  "other",
-  "personalcare",
-  "services",
-  "shopping",
-  "travel",
-];
 
 export default function AddTransactionPage() {
   const [form, setForm] = useState<Transaction>({
@@ -156,7 +119,7 @@ export default function AddTransactionPage() {
 
         <select name="category" onChange={handleChange}>
           {categories.map((category, i) => (
-            <option value={category.replace(/\s+/g, "").toLowerCase()}>
+            <option key={i} value={category.replace(/\s+/g, "").toLowerCase()}>
               {category}
             </option>
           ))}
